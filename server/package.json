@@ -1,0 +1,23 @@
+{
+  "name": "emirate_challenge_server",
+  "version": "0.0.1",
+  "description": "Emirates Challenge Backend service",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node_modules/.bin/nodemon --harmony -e js",
+    "dev:debug": "DEBUG=express:* npm run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "debug": "^4.1.1",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.11"
+  }
+}

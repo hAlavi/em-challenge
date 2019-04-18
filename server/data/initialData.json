@@ -1,0 +1,18 @@
+[
+    {
+        "travelclass": "Y",
+        "travelclasstext": "Economy",
+        "traveltype": "Return",
+        "traveltypetext": "Return",
+        "price": "399*",
+        "currencycode": "EUR",
+        "expiryindays": 11,
+        "expirydate": "2019-04-30T01:59:00",
+        "tcid": "5854100",
+        "travelfrom": "03 May 19",
+        "traveluntil": "30 Jun 19",
+        "travelfromuntil": "03 May 19-30 Jun 19",
+        "searchforflight": "/SessionHandler.aspx?pub=/de/english&pageurl=/IBE.aspx&section=IBE&TID=SB&resultby=2&j=t&showpage=true&seldcity1=FRA&selacity1=DXB&selcabinclass=0&selddate1=03-May-2019&seladate1=04-May-2019&bsp=Featured%20Fares&showsearch=true",
+        "copyLink": "http://www.emirates.com/de/english/book/featured-fares?filter1=airport&airport=FRA&filter2=airports&airports=DXB"
+    }
+]
