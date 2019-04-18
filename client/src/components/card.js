@@ -1,17 +1,8 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 
-const GlobalStyle = createGlobalStyle`
-@import url(https://fonts.googleapis.com/css?family=Raleway:400,300,500,700);
-* { box-sizing: border-box; }
-
-body {
-  background: #333;
-  font-family: "Raleway";
-  }
-`;
 
 const CardWrapper = styled.div`
     width: 50%;
@@ -31,7 +22,7 @@ const CardWrapper = styled.div`
 
 const CardPhoto = styled.div`
     padding: 30px;
-    width: 45%;
+    width: 65%;
     text-align: center;
     float: left;
     
@@ -44,7 +35,7 @@ const CardPhoto = styled.div`
 const CardDescription = styled.div`
     padding: 30px;
     float: left;
-    width: 55%;
+    width: 35%;
     border-left: 2px solid #efefef;
     
     h1 {
@@ -112,16 +103,15 @@ const Card = props => {
     // const Header = header;
     return (
         <CardWrapper>
-            <GlobalStyle />
             <CardPhoto>
-                <img src="https://s-media-cache-ak0.pinimg.com/236x/3b/36/ca/3b36ca3afe0fa0fd4984b9eee2e154bb.jpg"
+                <img src="https://c.ekstatic.net/shared/images/destination/v1/airports/DXB/510x340.jpg"
                     alt="IMAGE" />
             </CardPhoto>
             <CardDescription>
-                <h2>Classic Peace Lily</h2>
-                <h4>Popular House Plant</h4>
+                <h2>Frankfurt (FRA) to Dubai (DXB)</h2>
+                <h4>Economy</h4>
                 <h1>$18</h1>
-                <p>Classic Peace Lily is a spathiphyllum floor plant arranged in a bamboo planter with a blue & red ribbom and butterfly pick.</p>
+                <p>11 Jul 19 – 29 Feb 20</p>
                 <button>Add to Watchlist</button>
             </CardDescription>
         </CardWrapper>
