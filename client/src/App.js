@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Card from './components/card';
-import SearchCountry from './components/searchCountry';
+import Card from './components/Card';
+import SearchCountry from './components/SearchCountry';
 import styled, { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
