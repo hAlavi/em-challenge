@@ -141,15 +141,15 @@ const AutoSearchInput = styled.input`
     font-size: 10px;
     z-index: 7;
     &::before {
-      margin-top: 30px;
+      margin-top: 130px;
       margin-right: 20px;
     }
     &::after {
-      top:100px;
+      top:50px;
       left: 50px;
       height:30px;
-      margin-top: 130px;
-      margin-right: 120px;
+      position: relative;
+
     }
   }
   &::placeholder {
@@ -293,8 +293,8 @@ class SearchCountry extends React.Component {
     this.state = {
       searchTerm: this.props.value || ''
     }
-    this.updateSearch = this.updateSearch.bind(this)
-    this.filter = this.filter.bind(this)
+    //this.updateSearch = this.updateSearch.bind(this)
+    //this.filter = this.filter.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -307,59 +307,59 @@ class SearchCountry extends React.Component {
           value: nextProps.value
         }
       }
-      this.updateSearch(e)
+      //this.updateSearch(e)
     }
   }
 
-  updateSearch (e) {
-    const searchTerm = e.target.value
-    this.setState(
-      {
-        searchTerm: searchTerm
-      },
-      () => {
-        if (this._throttleTimeout) {
-          clearTimeout(this._throttleTimeout)
-        }
+  // updateSearch (e) {
+  //   const searchTerm = e.target.value
+  //   this.setState(
+  //     {
+  //       searchTerm: searchTerm
+  //     },
+  //     () => {
+  //       if (this._throttleTimeout) {
+  //         clearTimeout(this._throttleTimeout)
+  //       }
 
-        this._throttleTimeout = setTimeout(
-          () => this.props.onChange(searchTerm),
-          this.props.throttle
-        )
-      }
-    )
-  }
+  //       this._throttleTimeout = setTimeout(
+  //         () => this.props.onChange(searchTerm),
+  //         this.props.throttle
+  //       )
+  //     }
+  //   )
+  // }
 
-  filter (keys) {
-    const {filterKeys, caseSensitive, fuzzy, sortResults} = this.props
-    return createFilter(this.state.searchTerm, keys || filterKeys, {
-      caseSensitive,
-      fuzzy,
-      sortResults
-    })
-  }
+  // filter (keys) {
+  //   const {filterKeys, caseSensitive, fuzzy, sortResults} = this.props
+  //   return createFilter(this.state.searchTerm, keys || filterKeys, {
+  //     caseSensitive,
+  //     fuzzy,
+  //     sortResults
+  //   })
+  // }
 
   render() {
-    const {
-      className,
-      onChangeDep,
-      onChangeDest,
-      caseSensitive,
-      sortResults,
-      throttle,
-      filterKeys,
-      depValue,
-      destValue,
-      fuzzy,
-      depInputClassName,
-      destInputClassName,
-      ...inputProps
-    } = this.props; // eslint-disable-line no-unused-vars
-    inputProps.type = inputProps.type || 'search';
-    inputProps.value = this.state.searchTerm;
-    inputProps.onChange = this.updateSearch;
-    inputProps.className = inputClassName;
-    inputProps.placeholder = inputProps.placeholder || 'Search';
+    // const {
+    //   className,
+    //   onChangeDep,
+    //   onChangeDest,
+    //   caseSensitive,
+    //   sortResults,
+    //   throttle,
+    //   filterKeys,
+    //   depValue,
+    //   destValue,
+    //   fuzzy,
+    //   depInputClassName,
+    //   destInputClassName,
+    //   ...inputProps
+    // } = this.props; // eslint-disable-line no-unused-vars
+    // inputProps.type = inputProps.type || 'search';
+    // inputProps.value = this.state.searchTerm;
+    // inputProps.onChange = this.updateSearch;
+    // inputProps.className = inputClassName;
+    // inputProps.placeholder = inputProps.placeholder || 'Search';
 
     return (
         <SearchBar>
@@ -374,7 +374,7 @@ class SearchCountry extends React.Component {
           <SearchBox>
             <SearchBarText>Destination :</SearchBarText>
             <SearchContainer>
-                <AutoSearchInput id="depSearch" type="text" placeholder="Search..." />
+                <AutoSearchInput id="depSearch" type="search" placeholder="Search..." />
                 <div className="search"></div>
                 <ShowCountry className="searchResult">Germany</ShowCountry>
             </SearchContainer>
