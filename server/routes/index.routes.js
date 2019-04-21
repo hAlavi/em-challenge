@@ -29,7 +29,8 @@ const securityMeasure = function(req, res, next) {
     } else next();
 };
 
-router.use('/api/v1/watchlist', securityMeasure, require('./watchlist.routes'));
+// Uncomment security measures to apply jwt token security to watchlist end points
+router.use('/api/v1/watchlist', /* securityMeasure,*/ require('./watchlist.routes'));
 
 
 module.exports = router;

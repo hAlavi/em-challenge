@@ -1,20 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { Route, BrowserRouter as Router } from 'react-router-dom';
-import { Provider } from 'react-redux'
-import configureStore from './store';
+import { Provider } from 'react-redux';
+import { Router, Route } from 'react-router'
+import store, { history } from './store';
+import ShowSearch from './showSearch';
 // Our Components
 // import Login from './components/Login';
 
 ReactDOM.render(
-    <Provider store={configureStore()}>
-        <Router>
+    <Provider store={store}>
+        <Router history={history}>
             <div>
-                <Route exact path="/" component={App} /> 
-                {/*<Route exact path="/login" component={Login} />*/}
+                <Route exact path="/search" component={App} /> 
+                <Route exact path="/" component={ShowSearch} />
             </div>
         </Router>
     </Provider>

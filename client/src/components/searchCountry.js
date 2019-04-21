@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import styled, { createGlobalStyle } from 'styled-components';
+import { connect } from 'react-redux';
+import store, { history } from '../store';
 
 
 const AutoCompleteStyles = createGlobalStyle`
@@ -9,12 +11,12 @@ const AutoCompleteStyles = createGlobalStyle`
     margin-top: -60px;
     margin-left: 20px;
     position: absolute;
-    //border: 1px solid crimson;
-    //border-radius: 10px;
-    //border-bottom: none;
-    //border-top: none;
+    background-color: crimson; 
+    color: #ffffff; 
+    border: 1px solid #300;
+    border-radius: 10px;
+    box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.4);
     z-index: 99;
-    /*position the autocomplete items to be the same width as the container:*/
     top: 100%;
     left: 0;
     right: 0;
@@ -199,15 +201,40 @@ class SearchCountry extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      searchTerm: this.props.value || ''
+      departure: '',
+      destination: ''
     }
-
+    this.onChange = this.onChange.bind(this);
+    this.submit = this.submit.bind(this);
   }
+
+  onChange(e) {
+    this.props.updateForm(e.target.name, e.target.value);
+  }
+
+  getValue(name) {
+    return document.getElementsByName(name)[0].value;
+  }
+
+  submit() {
+    console.log( this.getValue('destination'))
+    this.props.updateForm('destination', this.getValue('destination'));
+    this.props.updateForm('departure', this.getValue('departure'));
+
+    console.log(store.getState())
+    this.setState({
+      status:'Search has done.'
+    }, () => {
+      history.push('/');
+    });
+  }
+
 
   componentDidMount() {
     let countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre &amp; Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts &amp; Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad &amp; Tobago","Tunisia","Turkey","Turkmenistan","Turks &amp; Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
     //
     this.autocomplete(document.getElementById('depSearch'), countries);
+    this.autocomplete(document.getElementById('destSearch'), countries);
   }
 
   autocomplete(inp, arr) {
@@ -292,22 +319,42 @@ class SearchCountry extends React.Component {
           <SearchBox>
             <SearchBarText>Departure :</SearchBarText>
             <SearchContainer>
-                <AutoSearchInput id="depSearch" type="text" placeholder="Search..." />
+                <AutoSearchInput name="departure" id="depSearch" type="text" placeholder="Search..."
+                  value={this.props.departure} onChange={this.onChange}  />
                 <div className="search"></div>
             </SearchContainer>
           </SearchBox>
           <SearchBox>
             <SearchBarText>Destination :</SearchBarText>
             <SearchContainer>
-                <AutoSearchInput id="depSearch" type="search" placeholder="Search..." />
+                <AutoSearchInput name="destination" id="destSearch" type="search" placeholder="Search..." 
+                  value={this.props.destination} onChange={this.onChange} />
                 <div className="search"></div>
             </SearchContainer>
           </SearchBox>
-          <FindButton onClick={this.onClick}>Find fare</FindButton>
+          <FindButton onClick={this.submit}>Find fare</FindButton>
         </SearchBar>
       );
     }
 };
 
-export default SearchCountry;
+SearchCountry.propTypes = {
+  destination: PropTypes.string,
+  departure: PropTypes.string
+};
+
+const mapStateToProps = (state, ownProps = {}) => {
+  return {
+    departure: state.departure,
+    destination: state.destination
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  updateForm: (key, value) => {
+    dispatch({ type: "UPDATE_SEARCH", key, value });
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchCountry);
   
