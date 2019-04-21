@@ -1,7 +1,47 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from 'react';
 // import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
+
+
+const AutoCompleteStyles = createGlobalStyle`
+  .autocomplete-items {
+    margin-top: -60px;
+    margin-left: 20px;
+    position: absolute;
+    //border: 1px solid crimson;
+    //border-radius: 10px;
+    //border-bottom: none;
+    //border-top: none;
+    z-index: 99;
+    /*position the autocomplete items to be the same width as the container:*/
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: 200px;
+  }
+  .autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: crimson; 
+    color: #ffffff; 
+    border: 1px solid #300;
+    border-radius: 10px;
+    box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.4);
+
+  }
+  .autocomplete-items div:hover {
+    /*when hovering an item:*/
+    background-color: #e9e9e9; 
+    color: #000; 
+  }
+  .autocomplete-active {
+    /*when navigating through the items using the arrow keys:*/
+    background-color: DodgerBlue !important; 
+    color: #ffffff; 
+  }
+`;
+
 
 const SearchBar = styled.div`
   display: flex;
@@ -136,34 +176,11 @@ const AutoSearchInput = styled.input`
       transform: rotate(-45deg);
     }
   }
-  &:focus ~ .searchResult {
-    text-align: right;
-    font-size: 10px;
-    z-index: 7;
-    &::before {
-      margin-top: 130px;
-      margin-right: 20px;
-    }
-    &::after {
-      top:50px;
-      left: 50px;
-      height:30px;
-      position: relative;
-
-    }
-  }
   &::placeholder {
     color: white;
     opacity: 0.5;
     font-weight: bolder;
   }
-`;
-
-const ShowCountry = styled.div`
-  margin-top: 30px;
-  margin-right: 20px;
-  text-align: right;
-  font-size: 10px;
 `;
 
 const FindButton = styled.button`
@@ -177,115 +194,6 @@ const FindButton = styled.button`
     margin-left: 0px;
 `;
 
-
-// class Search extends Component {
-//   constructor (props) {
-//     super(props)
-//     this.state = {
-//       depSearchTerm: this.props.depValue || '',
-//       destSearchTerm: this.props.depValue || ''
-//     }
-//     this.updateSearch = this.updateSearch.bind(this)
-//     this.filter = this.filter.bind(this)
-//   }
-
-//   componentWillReceiveProps (nextProps) {
-//     if (
-//       typeof nextProps.value !== 'undefined' &&
-//       nextProps.value !== this.props.value
-//     ) {
-//       const e = {
-//         target: {
-//           value: nextProps.value
-//         }
-//       }
-//       this.updateSearch(e)
-//     }
-//   }
-
-//   render () {
-//     const {
-//       className,
-//       onChangeDep,
-//       onChangeDest,
-//       caseSensitive,
-//       sortResults,
-//       throttle,
-//       filterKeys,
-//       depValue,
-//       destValue,
-//       fuzzy,
-//       depInputClassName,
-//       destInputClassName,
-//       ...inputProps
-//     } = this.props // eslint-disable-line no-unused-vars
-//     inputProps.type = inputProps.type || 'search'
-//     inputProps.value = this.state.searchTerm
-//     inputProps.onChange = this.updateSearch
-//     inputProps.className = inputClassName
-//     inputProps.placeholder = inputProps.placeholder || 'Search'
-//     return (
-//       <div className={className}>
-//         <input {...inputProps} />
-//       </div>
-//     )
-//   }
-
-//   updateSearch (e) {
-//     const searchTerm = e.target.value
-//     this.setState(
-//       {
-//         searchTerm: searchTerm
-//       },
-//       () => {
-//         if (this._throttleTimeout) {
-//           clearTimeout(this._throttleTimeout)
-//         }
-
-//         this._throttleTimeout = setTimeout(
-//           () => this.props.onChange(searchTerm),
-//           this.props.throttle
-//         )
-//       }
-//     )
-//   }
-
-//   filter (keys) {
-//     const {filterKeys, caseSensitive, fuzzy, sortResults} = this.props
-//     return createFilter(this.state.searchTerm, keys || filterKeys, {
-//       caseSensitive,
-//       fuzzy,
-//       sortResults
-//     })
-//   }
-// }
-
-// Search.defaultProps = {
-//   className: '',
-//   onChange () {},
-//   caseSensitive: false,
-//   fuzzy: false,
-//   throttle: 200
-// }
-
-// Search.propTypes = {
-//   className: PropTypes.string,
-//   inputClassName: PropTypes.string,
-//   onChange: PropTypes.func,
-//   caseSensitive: PropTypes.bool,
-//   sortResults: PropTypes.bool,
-//   fuzzy: PropTypes.bool,
-//   throttle: PropTypes.number,
-//   filterKeys: PropTypes.oneOf([
-//     PropTypes.string,
-//     PropTypes.arrayOf(PropTypes.string)
-//   ]),
-//   value: PropTypes.string
-// }
-
-// export default Search
-// export {createFilter}
-
 class SearchCountry extends React.Component {
 
   constructor (props) {
@@ -293,82 +201,99 @@ class SearchCountry extends React.Component {
     this.state = {
       searchTerm: this.props.value || ''
     }
-    //this.updateSearch = this.updateSearch.bind(this)
-    //this.filter = this.filter.bind(this)
+
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (
-      typeof nextProps.value !== 'undefined' &&
-      nextProps.value !== this.props.value
-    ) {
-      const e = {
-        target: {
-          value: nextProps.value
+  componentDidMount() {
+    let countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre &amp; Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts &amp; Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad &amp; Tobago","Tunisia","Turkey","Turkmenistan","Turks &amp; Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
+    //
+    this.autocomplete(document.getElementById('depSearch'), countries);
+  }
+
+  autocomplete(inp, arr) {
+    let currentFocus;
+    inp.addEventListener("input", function(e) {
+        let a, b, i, val = this.value;
+        closeAllLists();
+        if (!val) { return false;}
+        currentFocus = -1;
+        /*create a DIV element that will contain the items (values):*/
+        a = document.createElement("DIV");
+        a.setAttribute("id", this.id + "autocomplete-list");
+        a.setAttribute("class", "autocomplete-items");
+        this.parentNode.appendChild(a);
+        for (i = 0; i < arr.length; i++) {
+          if (arr[i].substr(0, val.length).toUpperCase() === val.toUpperCase()) {
+            b = document.createElement("DIV");
+            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+            b.innerHTML += arr[i].substr(val.length);
+            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                b.addEventListener("click", function(e) {
+                inp.value = this.getElementsByTagName("input")[0].value;
+                closeAllLists();
+            });
+            a.appendChild(b);
+          }
+        }
+    });
+    /*execute a function presses a key on the keyboard:*/
+    inp.addEventListener("keydown", function(e) {
+        let x = document.getElementById(this.id + "autocomplete-list");
+        if (x) x = x.getElementsByTagName("div");
+        if (e.keyCode === 40) {
+          /*If the arrow DOWN key is pressed,
+          increase the currentFocus variable:*/
+          currentFocus++;
+          addActive(x);
+        } else if (e.keyCode === 38) { //up
+          currentFocus--;
+          addActive(x);
+        } else if (e.keyCode === 13) {
+          e.preventDefault();
+          if (currentFocus > -1) {
+            if (x) x[currentFocus].click();
+          }
+        }
+    });
+    function addActive(x) {
+      /*a function to classify an item as "active":*/
+      if (!x) return false;
+      removeActive(x);
+      if (currentFocus >= x.length) currentFocus = 0;
+      if (currentFocus < 0) currentFocus = (x.length - 1);
+      x[currentFocus].classList.add("autocomplete-active");
+    }
+    function removeActive(x) {
+      for (let i = 0; i < x.length; i++) {
+        x[i].classList.remove("autocomplete-active");
+      }
+    }
+    function closeAllLists(elmnt) {
+      let x = document.getElementsByClassName("autocomplete-items");
+      for (let i = 0; i < x.length; i++) {
+        if (elmnt !== x[i] && elmnt !== inp) {
+        x[i].parentNode.removeChild(x[i]);
         }
       }
-      //this.updateSearch(e)
     }
+    /*execute a function when someone clicks in the document:*/
+    document.addEventListener("click", function (e) {
+        closeAllLists(e.target);
+    });
   }
 
-  // updateSearch (e) {
-  //   const searchTerm = e.target.value
-  //   this.setState(
-  //     {
-  //       searchTerm: searchTerm
-  //     },
-  //     () => {
-  //       if (this._throttleTimeout) {
-  //         clearTimeout(this._throttleTimeout)
-  //       }
-
-  //       this._throttleTimeout = setTimeout(
-  //         () => this.props.onChange(searchTerm),
-  //         this.props.throttle
-  //       )
-  //     }
-  //   )
-  // }
-
-  // filter (keys) {
-  //   const {filterKeys, caseSensitive, fuzzy, sortResults} = this.props
-  //   return createFilter(this.state.searchTerm, keys || filterKeys, {
-  //     caseSensitive,
-  //     fuzzy,
-  //     sortResults
-  //   })
-  // }
 
   render() {
-    // const {
-    //   className,
-    //   onChangeDep,
-    //   onChangeDest,
-    //   caseSensitive,
-    //   sortResults,
-    //   throttle,
-    //   filterKeys,
-    //   depValue,
-    //   destValue,
-    //   fuzzy,
-    //   depInputClassName,
-    //   destInputClassName,
-    //   ...inputProps
-    // } = this.props; // eslint-disable-line no-unused-vars
-    // inputProps.type = inputProps.type || 'search';
-    // inputProps.value = this.state.searchTerm;
-    // inputProps.onChange = this.updateSearch;
-    // inputProps.className = inputClassName;
-    // inputProps.placeholder = inputProps.placeholder || 'Search';
+
 
     return (
         <SearchBar>
+          <AutoCompleteStyles />
           <SearchBox>
             <SearchBarText>Departure :</SearchBarText>
             <SearchContainer>
                 <AutoSearchInput id="depSearch" type="text" placeholder="Search..." />
                 <div className="search"></div>
-                <ShowCountry className="searchResult">United Kingdom</ShowCountry>
             </SearchContainer>
           </SearchBox>
           <SearchBox>
@@ -376,7 +301,6 @@ class SearchCountry extends React.Component {
             <SearchContainer>
                 <AutoSearchInput id="depSearch" type="search" placeholder="Search..." />
                 <div className="search"></div>
-                <ShowCountry className="searchResult">Germany</ShowCountry>
             </SearchContainer>
           </SearchBox>
           <FindButton onClick={this.onClick}>Find fare</FindButton>
