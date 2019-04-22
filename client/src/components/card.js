@@ -98,27 +98,25 @@ const CardDescription = styled.div`
 
 
 const Card = props => {
-    // const { isOpen, onButtonClicked, index, theme, header, label } = props;
-    // const Icons = theme.icons;
-    // const Header = header;
     return (
         <CardWrapper>
             <CardPhoto>
-                <img src="https://c.ekstatic.net/shared/images/destination/v1/airports/DXB/510x340.jpg"
+                <img src={props.cardHeader.image}
                     alt="IMAGE" />
             </CardPhoto>
             <CardDescription>
-                <h2>Frankfurt (FRA) to Dubai (DXB)</h2>
-                <h4>Economy</h4>
-                <h1>$18</h1>
-                <p>11 Jul 19 – 29 Feb 20</p>
-                <button>Add to Watchlist</button>
+                <h2>{`${props.cardHeader.depcityshortname} (${props.cardHeader.depairportcode}) to ${props.cardHeader.destcityshortname} (${props.cardHeader.destairportcode})`}</h2>
+                <h4>{props.fare.travelclasstext}</h4>
+                <h1>{`${props.fare.price} ${props.fare.currencycode}`}</h1>
+                <p>{`${props.fare.travelfrom} ${props.fare.traveluntil}`}</p>
+                <button onClick={() => props.onClickWatch(props.fare)}>Add to Watchlist</button>
             </CardDescription>
         </CardWrapper>
     );
   };
   Card.propTypes = {
-    fare: PropTypes.object,
+    cardHeader: PropTypes.object.isRequired,
+    fare: PropTypes.object.isRequired,
     isWatched: PropTypes.bool,
     onClickWatch: PropTypes.func
   };

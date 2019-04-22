@@ -125,7 +125,8 @@ const SearchContainer = styled.div`
 `;
 
 const AutoSearchInput = styled.input`
-  font-family: 'Inconsolata', monospace;
+  //font-family: 'Inconsolata', monospace;
+  font-family: "Raleway";
   position: absolute;
   margin: auto;
   top: 0;
@@ -148,7 +149,7 @@ const AutoSearchInput = styled.input`
   transition: all 1s;
   opacity: 0.5;
   z-index: 5;
-  font-weight: bolder;
+  font-weight: 800;
   letter-spacing: 0.1em;
   &:hover {
     cursor: pointer;
@@ -319,15 +320,17 @@ class SearchCountry extends React.Component {
           <SearchBox>
             <SearchBarText>Departure :</SearchBarText>
             <SearchContainer>
-                <AutoSearchInput name="departure" id="depSearch" type="text" placeholder="Search..."
-                  value={this.props.departure} onChange={this.onChange}  />
+                <AutoSearchInput name="departure" id="depSearch" type="text" autoComplete="off" 
+                  placeholder="Search..."
+                  value={this.props.departure} onChange={this.onChange} />
                 <div className="search"></div>
             </SearchContainer>
           </SearchBox>
           <SearchBox>
             <SearchBarText>Destination :</SearchBarText>
             <SearchContainer>
-                <AutoSearchInput name="destination" id="destSearch" type="search" placeholder="Search..." 
+                <AutoSearchInput name="destination" id="destSearch" type="text" autoComplete="off"
+                  placeholder="Search..." 
                   value={this.props.destination} onChange={this.onChange} />
                 <div className="search"></div>
             </SearchContainer>
