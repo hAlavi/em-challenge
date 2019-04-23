@@ -1,17 +1,17 @@
 ### SERVER for challenge
 
 
-Make sure you have Node and NPM installed both with `node -v && npm -v`.  
-Install packages with `npm install`.  
-Run server with `npm run dev` for using **Nodemon**.
+Make sure you have Node and NPM installed both with `node -v && yarn -v`.  
+Install packages with `yarn install`.  
+Run server with `yarn run dev` for using **Nodemon**.
 
 If you use a Node version ≤ 8.2.1, you will need to add the " - harmony" flag for using spread operator in the package.json file.
 
 To see cool debug stuff
-`npm run dev:debug` 
+`yarn run dev:debug` 
 
 To run in Dev mode without debug stuff
-`npm run dev`
+`yarn run dev`
 
 Server is runnint on port ```3030```
 
@@ -28,4 +28,14 @@ Do post/get/delete on `/api/v1/watchlist`
 After `yarn install`
 just run `yarn start`
 
-Happy testing!
+Client is running ON PORT ```3000```
+
+### MOCK-SERVER
+`yarn run mock`
+Running on port ```2020```
+Mocking the server `https://www.emirates.com/api/`
+You can get it by requesting from `http://localhost:2020/api/en-GB/fares`
+or `http://localhost:2020/api/en-DE/fares`
+
+
+# Happy testing!

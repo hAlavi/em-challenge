@@ -1,20 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { Route, BrowserRouter as Router } from 'react-router-dom';
-
-// Our Components
-// import Login from './components/Login';
+import { Provider } from 'react-redux';
+import { Router, Route } from 'react-router'
+import store, { history } from './store';
+import ShowSearch from './showSearch';
 
 ReactDOM.render(
-    <Router>
-        <div>
-            <Route exact path="/" component={App} /> 
-            {/*<Route exact path="/login" component={Login} />*/}
-        </div>
-    </Router>
+    <Provider store={store}>
+        <Router history={history}>
+            <div>
+                <Route exact path="/search" component={App} /> 
+                <Route exact path="/" component={ShowSearch} />
+            </div>
+        </Router>
+    </Provider>
     , document.getElementById('root')
 );
 // Unregister may be used instead

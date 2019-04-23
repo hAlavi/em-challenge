@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Card from './components/card';
-import SearchCountry from './components/searchCountry';
+import SearchCountry from './components/SearchCountry';
 import styled, { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
@@ -28,7 +27,6 @@ class App extends Component {
       <AppWrapper>
         <GlobalStyle />
         <SearchCountry />
-        <Card />
       </AppWrapper>
     );
   }
