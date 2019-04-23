@@ -108,7 +108,7 @@ const Card = props => {
                 <h2>{`${props.cardHeader.depcityshortname} (${props.cardHeader.depairportcode}) to ${props.cardHeader.destcityshortname} (${props.cardHeader.destairportcode})`}</h2>
                 <h4>{props.fare.travelclasstext}</h4>
                 <h1>{`${props.fare.price} ${props.fare.currencycode}`}</h1>
-                <p>{`${props.fare.travelfrom} ${props.fare.traveluntil}`}</p>
+                <p>{`${props.fare.travelfrom} - ${props.fare.traveluntil}`}</p>
                 <button onClick={() => props.onClickWatch(props.fare)}>Add to Watchlist</button>
             </CardDescription>
         </CardWrapper>

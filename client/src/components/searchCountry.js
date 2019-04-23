@@ -218,7 +218,7 @@ class SearchCountry extends React.Component {
   }
 
   submit() {
-    console.log( this.getValue('destination'))
+    //console.log( this.getValue('destination'))
     this.props.updateForm('destination', this.getValue('destination'));
     this.props.updateForm('departure', this.getValue('departure'));
 

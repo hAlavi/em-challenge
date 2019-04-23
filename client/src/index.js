@@ -6,8 +6,6 @@ import { Provider } from 'react-redux';
 import { Router, Route } from 'react-router'
 import store, { history } from './store';
 import ShowSearch from './showSearch';
-// Our Components
-// import Login from './components/Login';
 
 ReactDOM.render(
     <Provider store={store}>

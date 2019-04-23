@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import Card from './components/Card';
-// import SearchCountry from './components/SearchCountry';
 import styled, { createGlobalStyle } from 'styled-components';
 import axios from 'axios';
+import store, { history } from './store';
+import countries from './data/countries.json';
 
+const API_PREFIX = 'https://www.emirates.com/api/en-';
+const WATCHLIST_API_PREFIX = 'http://localhost:3030/api/v1/watchlist';
+// You can point out this address to use mock-server
+//const API_PREFIX = 'http://localhost:2020/api/en-';
 
 const GlobalStyle = createGlobalStyle`
 @import url(https://fonts.googleapis.com/css?family=Raleway:400,300,500,700);
@@ -28,9 +33,24 @@ const LoadingAnim = styled.div`
     display : block;
     position : fixed;
     z-index: 100;
-    background-image : url('http://localhost:3000/assets/loading.gif');
+    background-image : url('/assets/loading.gif');
     background-color:white;
-    opacity : 0.4;
+    opacity : 0.8;
+    background-repeat : no-repeat;
+    background-position : center;
+    left : 0;
+    bottom : 0;
+    right : 0;
+    top : 0;
+`;
+
+const WatchlistAnim = styled.div`
+    display : block;
+    position : fixed;
+    z-index: 100;
+    background-image : url('/assets/watchlist.gif');
+    background-color:white;
+    opacity : 0.8;
     background-repeat : no-repeat;
     background-position : center;
     left : 0;
@@ -46,20 +66,32 @@ class ShowSearch extends Component {
         this.state = {
           cards: [],
           isLoading: false,
+          isAdding: false,
           error: null,
         };
     }
     
+    findCountryCode(countryName) {
+        for (let i=0; i<countries.length; i++) {
+            if (countries[i].Name === countryName)
+                return countries[i].Code;
+        }
+        return "NOF";
+    }
+
     async componentDidMount() {
         this.setState({ isLoading: true });
     
         try {
-            const depCountry = 'DE';
-            const destCountry = 'AE'; 
-            const API = 'https://www.emirates.com/api/en-';
-            // You can point out this address to use mock-server
-            //const API = 'http://localhost:2020/api/en-';
-            const result = await axios.get(API + depCountry + '/fares', {timeout: 20000});
+            //console.log(store.getState())
+
+            const depCountry = this.findCountryCode(store.getState().searchReducer.departure);
+            const destCountry = this.findCountryCode(store.getState().searchReducer.destination);
+            
+            if (depCountry === "NOF" || destCountry === "NOF") {
+                history.push('/search');
+            }
+            const result = await axios.get(API_PREFIX + depCountry + '/fares', {timeout: 30000});
             
             const data = result.data.farecards;
             let cards = [];
@@ -88,9 +120,22 @@ class ShowSearch extends Component {
         }
     }
     
+    addToWatchlist = (fare) => {
+        this.setState({ isAdding: true });
+        setTimeout(()=>{
+            axios.post(WATCHLIST_API_PREFIX, fare, {timeout: 30000}).then((r) => {
+                this.setState({ isAdding: false });
+            }).catch((error) => {
+                this.setState({
+                    error,
+                    isAdding: false
+                });
+            });
+        }, 3000);
+    }
 
     render() {
-        const { cards, isLoading, error } = this.state;
+        const { cards, isLoading, error, isAdding } = this.state;
 
         if (error) {
             return <p>{error.message}</p>;
@@ -100,9 +145,10 @@ class ShowSearch extends Component {
         }
         return (
         <AppWrapper>
+            {isAdding?<WatchlistAnim />:<div/>};
             <GlobalStyle />
             {cards.map(card =>
-                <Card cardHeader={card.cardHeader} fare={card.fare} />
+                <Card cardHeader={card.cardHeader} fare={card.fare} onClickWatch={this.addToWatchlist} />
             )}
         </AppWrapper>
         );
